@@ -8,24 +8,64 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider = "postgresql"
+}
+
+model Organization {
+  id           Int           @id @default(autoincrement())
+  name         String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  memberships  Membership[]
+  transactions Transaction[]
+  invitations  Invitation[]
 }
 
 model User {
-  id      String @id @default(uuid())
-  name    String
-  role    String @default("viewer") // admin | viewer
+  id           String       @id @default(uuid())
+  email        String       @unique
+  password     String
+  name         String
+  memberships  Membership[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+model Membership {
+  id             String       @id @default(uuid())
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organizationId Int
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  role           String       @default("viewer") // "admin" | "viewer"
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@unique([userId, organizationId])
+}
+
+model Invitation {
+  id             String       @id @default(uuid())
+  email          String
+  role           String       @default("viewer")
+  inviteCode     String       @unique @default(uuid())
+  status         String       @default("pending") // "pending" | "accepted" | "revoked"
+  organizationId Int
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  createdAt      DateTime     @default(now())
+  expiresAt      DateTime
 }
 
 model Transaction {
-  id        String   @id @default(uuid())
-  title     String
-  amount    Float
-  category  String   // Salary, Marketing, Tools, Travel, Office, Misc
-  type      String   // income, expense
-  status    String   // pending, approved, rejected
-  date      DateTime
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id             String       @id @default(uuid())
+  title          String
+  amount         Float
+  category       String
+  type           String       // "income" | "expense"
+  status         String       // "pending" | "approved" | "rejected"
+  date           DateTime
+  organizationId Int
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 }

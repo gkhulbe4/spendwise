@@ -13,9 +13,23 @@ interface FilterState {
   sortOrder: "asc" | "desc";
 }
 
-interface AppState {
+export interface UserData {
+  id: string;
+  name: string;
+  email: string;
   role: Role;
-  setRole: (role: Role) => void;
+  orgId: string;
+  orgName?: string;
+  memberships?: {
+    orgId: string;
+    orgName: string;
+    role: Role;
+  }[];
+}
+
+interface AppState {
+  user: UserData | null;
+  setUser: (user: UserData | null) => void;
 
   filters: FilterState;
   setFilters: (filters: Partial<FilterState>) => void;
@@ -40,8 +54,8 @@ const initialFilters: FilterState = {
 export const useStore = create<AppState>()(
   persist(
     (set) => ({
-      role: "viewer", // default role
-      setRole: (role) => set({ role }),
+      user: null,
+      setUser: (user) => set({ user }),
 
       filters: initialFilters,
       setFilters: (newFilters) =>
@@ -69,7 +83,7 @@ export const useStore = create<AppState>()(
     }),
     {
       name: "spendwise-storage",
-      partialize: (state) => ({ role: state.role }), // only persist role
+      partialize: (state) => ({}), // Don't persist user data in localStorage (Security)
     }
   )
 );

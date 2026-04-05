@@ -1,9 +1,14 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getSession } from "@/lib/auth";
 
 export async function GET() {
+  const session = await getSession();
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   try {
     const transactions = await prisma.transaction.findMany({
+      where: { organizationId: Number(session.orgId) },
       orderBy: { date: "desc" },
     });
     return NextResponse.json(transactions);
@@ -14,6 +19,14 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  const session = await getSession();
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  // Only admins can create transactions in this platform (as per user brief: Admin manages financial data)
+  if (session.role !== "admin") {
+    return NextResponse.json({ error: "Only admins can add transactions" }, { status: 403 });
+  }
+
   try {
     const body = await req.json();
     const { title, amount, category, type, status, date } = body;
@@ -30,6 +43,7 @@ export async function POST(req: Request) {
         type,
         status,
         date: new Date(date),
+        organizationId: Number(session.orgId),
       },
     });
 

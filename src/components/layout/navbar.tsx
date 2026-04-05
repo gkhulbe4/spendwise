@@ -1,63 +1,38 @@
 "use client";
 
-import { useTheme } from "next-themes";
-import { Moon, Sun, User as UserIcon } from "lucide-react";
-import { useStore, Role } from "@/store/useStore";
-import { useEffect, useState } from "react";
-import { twMerge } from "tailwind-merge";
-import clsx from "clsx";
-
-function cn(...inputs: (string | undefined | null | false)[]) {
-  return twMerge(clsx(inputs));
-}
+import { usePathname } from "next/navigation";
+import { User, History, HelpCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { MobileDrawer } from "@/components/layout/sidebar";
 
 export function Navbar() {
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  const { role, setRole } = useStore();
+  const pathname = usePathname();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const title =
+    pathname === "/" ? "Dashboard" : pathname.split("/").filter(Boolean).pop();
+  const formattedTitle = title
+    ? title.charAt(0).toUpperCase() + title.slice(1)
+    : "Dashboard";
 
   return (
-    <header className="h-14 flex items-center justify-between px-6 border-b border-border bg-background">
-      <div className="flex items-center gap-4">
-        {/* Breadcrumb or Search placeholder could go here */}
-        <h1 className="text-sm font-medium text-muted-foreground">Spendwise Workspace</h1>
+    <header className="h-[52px] flex items-center justify-between px-6 border-b border-border bg-background shrink-0 sticky top-0 z-20">
+      <div className="flex items-center gap-2 sm:gap-3 text-foreground">
+        <MobileDrawer />
+        <div className="flex items-center gap-2 font-medium text-[14px]">
+          <User className="hidden sm:block w-4 h-4 stroke-[1.5px] text-muted-foreground" />
+          <span>{formattedTitle}</span>
+        </div>
       </div>
 
-      {mounted && (
-        <div className="flex items-center gap-4">
-          <div className="flex items-center bg-muted p-1 rounded-lg">
-            {(["admin", "viewer"] as Role[]).map((r) => (
-              <button
-                key={r}
-                onClick={() => setRole(r)}
-                className={cn(
-                  "px-3 py-1 text-xs font-medium rounded-md transition-all",
-                  role === r
-                    ? "bg-background text-foreground shadow-sm"
-                    : "text-muted-foreground hover:text-foreground"
-                )}
-              >
-                {r.charAt(0).toUpperCase() + r.slice(1)}
-              </button>
-            ))}
-          </div>
+      <div className="flex items-center gap-4 text-muted-foreground text-[13px] font-medium">
+        <div className="w-px h-4 bg-border mx-1" />
 
-          <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="p-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
-          >
-            {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-          </button>
-
-          <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-medium text-sm">
-            <UserIcon className="w-4 h-4" />
-          </div>
+        <div className="flex items-center gap-3">
+          <span className="text-xs text-muted-foreground">
+            Work-in-progress
+          </span>
         </div>
-      )}
+      </div>
     </header>
   );
 }
