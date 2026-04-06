@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useStore } from "@/store/useStore";
 import { useLogin, useRegister } from "@/hooks/use-user-query";
 import { AuthHeader } from "@/components/auth/AuthHeader";
 import { AuthChoice } from "@/components/auth/AuthChoice";
@@ -11,7 +12,14 @@ import { cn } from "@/lib/utils";
 export default function AuthPage() {
   const [mode, setMode] = useState<"choice" | "login" | "register">("choice");
   const [error, setError] = useState("");
+  const { user } = useStore();
   const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, [user, router]);
 
   const loginMutation = useLogin();
   const registerMutation = useRegister();
@@ -29,6 +37,7 @@ export default function AuthPage() {
       } else if (mode === "register") {
         await registerMutation.mutateAsync(formData);
       }
+      router.refresh();
       router.push("/");
     } catch (err: any) {
       setError(err.message || (mode === "login" ? "Login failed" : "Registration failed"));

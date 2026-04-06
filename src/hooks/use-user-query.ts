@@ -69,6 +69,7 @@ export function useLogout() {
 }
 
 export function useLogin() {
+  const { setUser } = useStore();
   return useMutation({
     mutationFn: async (payload: any) => {
       const res = await fetch("/api/auth/login", {
@@ -79,10 +80,14 @@ export function useLogin() {
       if (!res.ok) throw new Error(data.error || "Login failed");
       return data;
     },
+    onSuccess: (data) => {
+      setUser(data);
+    },
   });
 }
 
 export function useRegister() {
+  const { setUser } = useStore();
   return useMutation({
     mutationFn: async (payload: any) => {
       const res = await fetch("/api/auth/register", {
@@ -92,6 +97,9 @@ export function useRegister() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Registration failed");
       return data;
+    },
+    onSuccess: (data) => {
+      setUser(data);
     },
   });
 }
