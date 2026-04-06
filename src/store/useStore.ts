@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Transaction } from "@prisma/client";
+import type { Transaction } from "@prisma/client";
 
 export type Role = "admin" | "viewer";
 

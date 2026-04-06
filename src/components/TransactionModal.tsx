@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { X, Calendar as CalendarIcon, Loader2 } from "lucide-react";
-import { Transaction } from "@prisma/client";
+import type { Transaction } from "@prisma/client";
 import { useStore } from "@/store/useStore";
 import { format, setHours, setMinutes, getHours, getMinutes } from "date-fns";
 

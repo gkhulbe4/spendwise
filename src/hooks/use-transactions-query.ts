@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useStore } from "@/store/useStore";
-import { Transaction } from "@prisma/client";
+import type { Transaction } from "@prisma/client";
 
 // Query key factory for consistency
 export const transactionKeys = {

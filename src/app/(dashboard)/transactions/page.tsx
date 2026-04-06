@@ -25,7 +25,7 @@ import {
 import { useState, useMemo } from "react";
 import { TransactionModal } from "@/components/TransactionModal";
 import { format } from "date-fns";
-import { Transaction } from "@prisma/client";
+import type { Transaction } from "@prisma/client";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
