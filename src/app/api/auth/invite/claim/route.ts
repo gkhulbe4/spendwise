@@ -69,7 +69,7 @@ export async function POST(req: Request) {
 
     await createSession({
       userId: user.id,
-      orgId: invite.organizationId,
+      orgId: invite.organizationId.toString(),
       orgName: invite.organization.name,
       role: invite.role,
       name: user.name,
