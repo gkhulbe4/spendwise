@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 export function LandingNavbar() {
-  const { user, setUser } = useStore();
+  const { user, setUser, setTransactions } = useStore();
   const router = useRouter();
 
   const handleSignOut = async () => {
@@ -14,6 +14,8 @@ export function LandingNavbar() {
       const res = await fetch("/api/auth/logout", { method: "POST" });
       if (!res.ok) throw new Error("Logout failed");
       setUser(null);
+      setTransactions([]);
+      router.push("/landing");
       router.refresh();
       toast.success("Signed out successfully");
     } catch (error) {

@@ -60,10 +60,15 @@ export function useCreateOrg() {
 }
 
 export function useLogout() {
+  const { setUser, setTransactions } = useStore();
   return useMutation({
     mutationFn: async () => {
       const res = await fetch("/api/auth/logout", { method: "POST" });
       if (!res.ok) throw new Error("Logout failed");
+    },
+    onSuccess: () => {
+      setUser(null);
+      setTransactions([]);
     },
   });
 }
