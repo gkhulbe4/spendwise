@@ -1,8 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, Mail, MessageSquare, Zap, CreditCard } from "lucide-react";
+import { ArrowRight, Mail, MessageSquare, Zap } from "lucide-react";
 
 export function CallToAction() {
   return (
@@ -17,13 +16,7 @@ export function CallToAction() {
       ></div>
 
       <div className="max-w-4xl mx-auto relative z-10 w-full">
-        <motion.div
-           initial={{ opacity: 0, y: 20 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           viewport={{ once: true }}
-           transition={{ duration: 0.5 }}
-           className="bg-white border-2 border-black rounded-[2rem] sm:rounded-[2.5rem] p-8 sm:p-12 md:p-16 text-center shadow-[6px_6px_0_0_#000] sm:shadow-[8px_8px_0_0_#000] relative overflow-hidden"
-        >
+        <div className="bg-white border-2 border-black rounded-[2rem] sm:rounded-[2.5rem] p-8 sm:p-12 md:p-16 text-center shadow-[6px_6px_0_0_#000] sm:shadow-[8px_8px_0_0_#000] relative overflow-hidden">
           {/* Top Connectors */}
           <div className="flex justify-center items-center gap-3 sm:gap-4 mb-8 sm:mb-10">
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-slate-50 border border-slate-100 rounded-lg sm:rounded-xl flex items-center justify-center">
@@ -63,7 +56,7 @@ export function CallToAction() {
               Contact Sales <Mail className="ml-2 w-4 h-4 opacity-70" />
             </Link>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

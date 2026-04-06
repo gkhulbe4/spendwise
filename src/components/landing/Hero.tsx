@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { ArrowRight, ChevronRight, MessageCircle } from "lucide-react";
 import Link from "next/link";
 
@@ -20,12 +19,7 @@ export function Hero() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-blue-50/50 rounded-full blur-[120px] pointer-events-none z-0" />
 
       <div className="relative z-10 max-w-[1200px] mx-auto px-6 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
+        <div>
           {/* Banner */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-50 border border-slate-100 text-[#898989] text-xs font-semibold mb-10 hover:border-slate-200 transition-colors pointer-events-auto cursor-pointer group">
             <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
@@ -69,7 +63,7 @@ export function Hero() {
               />
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

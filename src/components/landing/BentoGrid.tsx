@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { CreditCard, Moon, Users, CheckCircle2, Zap } from "lucide-react";
 
 export function BentoGrid() {
@@ -16,12 +15,7 @@ export function BentoGrid() {
       ></div>
 
       <div className="max-w-6xl mx-auto font-sans relative z-10">
-        <motion.div
-           initial={{ opacity: 0, scale: 0.98, y: 20 }}
-           whileInView={{ opacity: 1, scale: 1, y: 0 }}
-           viewport={{ once: true }}
-           transition={{ duration: 0.6 }}
-        >
+        <div>
           <div className="mb-20">
             <h2 className="text-5xl md:text-6xl font-bold tracking-tight text-black mb-6 leading-[1.1]">
               Integrated toolkit
@@ -146,7 +140,7 @@ export function BentoGrid() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

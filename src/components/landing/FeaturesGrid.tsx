@@ -1,18 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { CreditCard, Lightbulb, PieChart } from "lucide-react";
 
 export function FeaturesGrid() {
   return (
     <section className="py-24 bg-white overflow-hidden relative">
       <div className="max-w-5xl mx-auto px-6 font-sans text-center md:text-left">
-        <motion.div
-           initial={{ opacity: 0, y: 20 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           viewport={{ once: true }}
-           transition={{ duration: 0.5 }}
-        >
+        <div>
           <div className="mb-20">
             <h2 className="text-5xl md:text-6xl font-bold tracking-tight text-black mb-6 leading-[1.1]">
               Master your spending
@@ -50,7 +44,7 @@ export function FeaturesGrid() {
               color="bg-[#f0d8ff]"
             />
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

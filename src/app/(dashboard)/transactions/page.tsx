@@ -172,6 +172,37 @@ export default function TransactionsPage() {
       currency: "USD",
     }).format(val);
 
+  const handleExportCSV = () => {
+    const headers = ["Title", "Amount", "Category", "Type", "Status", "Date"];
+    const rows = filteredAndSorted.map((t) => [
+      t.title.replace(/"/g, '""'),
+      t.amount.toString(),
+      t.category,
+      t.type,
+      t.status,
+      format(new Date(t.date), "yyyy-MM-dd"),
+    ]);
+
+    const csvContent = [
+      headers.join(","),
+      ...rows.map((row) => row.map((cell) => `"${cell}"`).join(",")),
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute(
+      "download",
+      `spendwise_transactions_${format(new Date(), "yyyy_MM_dd")}.csv`,
+    );
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toast.success("CSV Exported successfully");
+  };
+
   return (
     <div className="flex flex-col h-full bg-background text-foreground animate-in fade-in duration-500">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-4 sm:px-6 py-4 border-b border-border bg-background shrink-0 select-none">
@@ -311,6 +342,14 @@ export default function TransactionsPage() {
               Delete {selectedIds.length}
             </button>
           )}
+
+          <button
+            onClick={handleExportCSV}
+            className="flex items-center gap-1.5 h-9 px-4 text-xs font-medium text-muted-foreground hover:text-foreground bg-muted/50 hover:bg-muted rounded-lg transition-all border border-border"
+          >
+            <DatabaseBackup className="w-3.5 h-3.5" />
+            Export CSV
+          </button>
 
           <button
             onClick={openNewModal}

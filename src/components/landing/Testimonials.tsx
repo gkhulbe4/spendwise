@@ -1,7 +1,6 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
 
 const testimonials = [
   {
@@ -73,12 +72,7 @@ export function Testimonials() {
   return (
     <section className="py-24 bg-white border-y border-slate-100 overflow-hidden relative px-6">
       <div className="max-w-6xl mx-auto mb-20 text-left">
-        <motion.div
-           initial={{ opacity: 0, y: 20 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           viewport={{ once: true }}
-           transition={{ duration: 0.5 }}
-        >
+        <div>
           <h2 className="text-5xl md:text-6xl font-bold tracking-tight text-black mb-6 leading-[1.1]">
             Loved by teams
             <br />
@@ -92,16 +86,10 @@ export function Testimonials() {
             </span>{" "}
             of a true finance OS.
           </p>
-        </motion.div>
+        </div>
       </div>
 
-      <motion.div 
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1 }}
-        className="max-w-6xl mx-auto h-[600px] relative overflow-hidden flex gap-6"
-      >
+      <div className="max-w-6xl mx-auto h-[600px] relative overflow-hidden flex gap-6">
         <div className="flex-1">
           <MarqueeColumn items={testimonials.slice(0, 3)} speed="30s" />
         </div>
@@ -114,7 +102,7 @@ export function Testimonials() {
 
         <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-white to-transparent z-10 pointer-events-none" />
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-white to-transparent z-10 pointer-events-none" />
-      </motion.div>
+      </div>
 
       <style jsx global>{`
         @keyframes vertical-marquee {
